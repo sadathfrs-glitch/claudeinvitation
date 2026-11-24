@@ -63,12 +63,12 @@ h3{font-weight:400;color:var(--ink);font-size:25px;font-variant:small-caps;lette
 .js .rv{opacity:0;transform:translateY(12px);transition:opacity 1s ease,transform 1s ease}
 .js .rv.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}.js .rv{opacity:1;transform:none;transition:none}}
-#op{display:none;position:fixed;top:0;right:0;bottom:0;left:0;z-index:50;background-color:#e7d8ba;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent;transition:background-color .9s ease .5s}
+#op{display:none;position:fixed;top:0;right:0;bottom:0;left:0;height:100vh;height:100dvh;z-index:50;background-color:#e7d8ba;cursor:pointer;touch-action:manipulation;-webkit-tap-highlight-color:transparent}
 .js #op{display:block}
 .js body.lock{overflow:hidden}
 #op.go{background-color:transparent;pointer-events:none}
 .stg{position:absolute;top:0;right:0;bottom:0;left:0;max-width:520px;margin:0 auto;overflow:hidden}
-.dl,.dr{position:absolute;top:0;bottom:0;width:50.5%;overflow:hidden;transform:translate3d(0,0,0);transition:transform 1.8s cubic-bezier(.77,0,.18,1) .45s}
+.dl,.dr{position:absolute;top:0;bottom:0;width:50.5%;overflow:hidden;transform:translateX(0);-webkit-transform:translateX(0);-webkit-backface-visibility:hidden;backface-visibility:hidden;will-change:transform;transition:transform 1.8s cubic-bezier(.77,0,.18,1) .1s;-webkit-transition:-webkit-transform 1.8s cubic-bezier(.77,0,.18,1) .1s}
 .dl{left:0;border-right:1px solid rgba(176,141,60,.75)}
 .dr{right:0;border-left:1px solid rgba(176,141,60,.75)}
 .dl i,.dr i{position:absolute;top:0;bottom:0;width:198%;background:linear-gradient(rgba(243,224,186,.5),rgba(243,224,186,.5)),var(--img) center/cover}
@@ -76,7 +76,7 @@ h3{font-weight:400;color:var(--ink);font-size:25px;font-variant:small-caps;lette
 .dl::after,.dr::after{content:"";position:absolute;top:0;bottom:0;width:28px}
 .dl::after{right:0;background:linear-gradient(90deg,rgba(110,80,20,0),rgba(110,80,20,.2))}
 .dr::after{left:0;background:linear-gradient(270deg,rgba(110,80,20,0),rgba(110,80,20,.2))}
-.go .dl{transform:translate3d(-101%,0,0)}.go .dr{transform:translate3d(101%,0,0)}
+.go .dl{transform:translateX(-101%);-webkit-transform:translateX(-101%)}.go .dr{transform:translateX(101%);-webkit-transform:translateX(101%)}
 .ln{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;transition:opacity .45s}
 .go .ln,.go .ot,.go .ob,.go .tap{opacity:0}
 .ot,.ob,.tap{position:absolute;left:0;right:0;text-align:center;transition:opacity .45s}
@@ -91,7 +91,7 @@ h3{font-weight:400;color:var(--ink);font-size:25px;font-variant:small-caps;lette
 @keyframes pr{0%{box-shadow:0 0 0 0 rgba(176,141,60,.5)}100%{box-shadow:0 0 0 24px rgba(176,141,60,0)}}
 .hero>*{transition:opacity 1.4s ease 1.1s,transform 1.4s ease 1.1s}
 .js .lock .hero>*{opacity:0;transform:translateY(14px)}
-@media (prefers-reduced-motion:reduce){.seal::after{animation:none}.dl,.dr{transition-duration:.01s;transition-delay:0s}.hero>*{transition:none}}
+@media (prefers-reduced-motion:reduce){.seal::after{animation:none}.dl,.dr{transition-duration:.85s;transition-delay:0s;-webkit-transition-duration:.85s;-webkit-transition-delay:0s}.hero>*{transition:none}}
 .mus{position:fixed;bottom:0;right:max(16px,calc(50vw - 244px));margin-bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;display:flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:var(--card);color:var(--ink);font:500 11px/1 'DM Sans',system-ui,sans-serif;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;box-shadow:4px 5px 14px var(--sh1),-3px -3px 8px var(--sh2)}
 .mus:focus-visible{outline:2px solid var(--ink);outline-offset:3px}
 .eq{display:flex;align-items:flex-end;gap:2px;height:12px}
@@ -221,8 +221,9 @@ h3{font-weight:400;color:var(--ink);font-size:25px;font-variant:small-caps;lette
     play();
     setTimeout(function(){op.style.display='none'},2800);
   }
+  if('PointerEvent' in window)op.addEventListener('pointerdown',openEnv,{passive:true});
+  else op.addEventListener('touchend',openEnv,{passive:true});
   op.addEventListener('click',openEnv);
-  op.addEventListener('touchend',openEnv);
   sl.addEventListener('click',openEnv);
   var els=document.querySelectorAll('.rv');
   if('IntersectionObserver' in window){
